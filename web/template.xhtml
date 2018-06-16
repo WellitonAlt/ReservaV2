@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>TreisVaga</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<h:outputStylesheet name="materialize.min.css" library="css" />
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+	</h:head>
+	<h:body>
+		<div id="menu" class="container">
+			<nav>
+				<div class="nav-wrapper indigo">
+					<a class="brand-logo" jsf:outcome="index">
+						<img class="materialboxed" width="280" src="resources/img/TreisVaGa.png" />
+					</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<ui:insert name="menuList">Content</ui:insert>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div id="body" class="container">
+			<ui:insert name="content">Content</ui:insert>
+			<br />
+		</div>
+		<div class="container">
+			<footer class="page-footer indigo">
+				<div class="footer-copyright">
+					<div class="container" align="center">
+                                            Criado com <i>Feijões em rede</i> <br/>
+                                            Movido com <i> Peixe de Vidro</i>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</h:body>
+</html>
