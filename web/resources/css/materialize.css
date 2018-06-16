@@ -6695,7 +6695,7 @@ textarea.materialize-textarea {
 }
 
 /* Radio Buttons
-   ========================================================================== */
+   ========================================================================== 
 [type="radio"]:not(:checked),
 [type="radio"]:checked {
   position: absolute;
@@ -6734,7 +6734,7 @@ textarea.materialize-textarea {
   transition: .28s ease;
 }
 
-/* Unchecked styles */
+/* Unchecked styles 
 [type="radio"]:not(:checked) + span:before,
 [type="radio"]:not(:checked) + span:after,
 [type="radio"]:checked + span:before,
@@ -6754,7 +6754,7 @@ textarea.materialize-textarea {
           transform: scale(0);
 }
 
-/* Checked styles */
+/* Checked styles 
 [type="radio"]:checked + span:before {
   border: 2px solid transparent;
 }
@@ -6775,19 +6775,19 @@ textarea.materialize-textarea {
           transform: scale(1.02);
 }
 
-/* Radio With gap */
+/* Radio With gap 
 [type="radio"].with-gap:checked + span:after {
   -webkit-transform: scale(0.5);
           transform: scale(0.5);
 }
 
-/* Focused styles */
+/* Focused styles 
 [type="radio"].tabbed:focus + span:before {
   -webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Disabled Radio With gap */
+/* Disabled Radio With gap 
 [type="radio"].with-gap:disabled:checked + span:before {
   border: 2px solid rgba(0, 0, 0, 0.42);
 }
@@ -6797,7 +6797,7 @@ textarea.materialize-textarea {
   background-color: rgba(0, 0, 0, 0.42);
 }
 
-/* Disabled style */
+/* Disabled style 
 [type="radio"]:disabled:not(:checked) + span:before,
 [type="radio"]:disabled:checked + span:before {
   background-color: transparent;
@@ -6815,7 +6815,7 @@ textarea.materialize-textarea {
 [type="radio"]:disabled:checked + span:after {
   background-color: rgba(0, 0, 0, 0.42);
   border-color: #949494;
-}
+} */
 
 /* Checkboxes
    ========================================================================== */

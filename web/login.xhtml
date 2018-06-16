@@ -24,18 +24,11 @@
                <div class="container center">
                 <h:form class="col s6">
                    <div class="row">
-                    <label>
-                         <input type="radio" name="tipo" value="adm"> </input>
-                         <span>Administrador</span>
-                      </label>              
-                      <label>
-                          <input type="radio" name="tipo" value="hotel"> </input>
-                          <span>Hotel</span>
-                      </label>
-                       <label>
-                        <input type="radio" name="tipo" value="site" > </input>
-                        <span>Site</span>
-                      </label>
+                       <h:selectOneRadio value = "#{login.tipo}"> 
+                        <f:selectItem itemValue = "adm" itemLabel = "Administrado" /> 
+                        <f:selectItem itemValue = "hotel" itemLabel = "Hotel" />
+                        <f:selectItem itemValue = "site" itemLabel = "Site" />
+                     </h:selectOneRadio>
                    </div>
                    <div class="row">
                     <div class="input-field col s6">
@@ -50,7 +43,7 @@
                   </div>
                   <div class="row">
                       <a class="waves-effect waves-light btn indigo">
-                           <h:commandButton value="Login" action="#{login.login()}" />
+                          <h:commandButton value="Login" action="#{login.fazLogin()}" />
                       </a>
                   </div>              
                 </h:form>
