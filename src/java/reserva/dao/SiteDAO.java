@@ -1,7 +1,7 @@
 
 package reserva.dao;
 
-import reserva.Site;
+import reserva.beans.Site;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +16,6 @@ import javax.sql.DataSource;
 
 @RequestScoped
 public class SiteDAO {
-    
-    @Resource(name = "jdbc/reservaDBLocal")
-    DataSource dataSource;
-    
     private final static String CRIAR_SITE_SQL = "insert into Site"
             + " (url, senha, nome, telefone)"
             + " values (?,?,?,?)";
@@ -33,12 +29,10 @@ public class SiteDAO {
             + " from site "
             + " where url = ? AND"
             + " senha = ? ";
-   
-
-    public SiteDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
     
+    @Resource(name = "jdbc/ReservaDBLocal")
+    DataSource dataSource;
+
     public Site gravarSite(Site site) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(CRIAR_SITE_SQL, Statement.RETURN_GENERATED_KEYS);) {
@@ -81,14 +75,17 @@ public class SiteDAO {
             ps.setString(2, senha);
 
             try (ResultSet rs = ps.executeQuery()) {
-                rs.next();
-                Site site = new Site();
-                site.setId(rs.getInt("id"));
-                site.setUrl(rs.getString("url"));
-                site.setNome(rs.getString("nome"));
-                site.setTelefone(rs.getString("telefone"));
-                return site;
-            }catch(Exception e){return null;}
+                if(rs.next()){
+                    Site site = new Site();
+                    site.setId(rs.getInt("id"));
+                    site.setUrl(rs.getString("url"));
+                    site.setNome(rs.getString("nome"));
+                    site.setTelefone(rs.getString("telefone"));
+                    return site;
+                } else {
+                    return null;
+                }
+            }
         }
     }
 }

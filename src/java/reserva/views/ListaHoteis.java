@@ -1,8 +1,8 @@
 
-package views;
+package reserva.views;
 
 import reserva.dao.HotelDAO;
-import reserva.Hotel;
+import reserva.beans.Hotel;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,12 +38,12 @@ public class ListaHoteis implements Serializable {
     }
     
     public String listaTodosHoteis() throws SQLException, NamingException {
-        hoteis = hotelDAO.listarTodasHoteisByCidade("");        
+        hoteis = hotelDAO.listarHoteisPorCidade("");        
         return "listaHoteis";
     }
     
     public String listaTodosHoteisByCidade() throws SQLException, NamingException {
-        hoteis = hotelDAO.listarTodasHoteisByCidade(cidade);        
+        hoteis = hotelDAO.listarHoteisPorCidade(cidade);        
         return "listaHoteis";
     }
     
