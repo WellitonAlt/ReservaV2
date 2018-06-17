@@ -1,5 +1,5 @@
 
-package views;
+package reserva.views;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -9,8 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
-import reserva.Hotel;
-import reserva.Site;
+import reserva.beans.Hotel;
+import reserva.beans.Site;
 import reserva.dao.HotelDAO;
 import reserva.dao.SiteDAO;
 

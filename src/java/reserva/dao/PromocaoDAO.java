@@ -1,9 +1,9 @@
 package reserva.dao;
 
-import reserva.Hotel;
-import reserva.Promocao;
-import reserva.Site;
-import reserva.PromocaoConsulta;
+import reserva.beans.Hotel;
+import reserva.beans.Promocao;
+import reserva.beans.Site;
+import reserva.beans.PromocaoConsulta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +14,10 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.util.Date;
+import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 
+@RequestScoped
 public class PromocaoDAO {
  
     private final static String CRIAR_PROMOCAO_SQL = "insert into Promocao"
@@ -47,12 +50,9 @@ public class PromocaoDAO {
             + " hotel = ? and"
             + " dataInicial = ? and"
             + " dataFinal = ?";
-
-        DataSource dataSource;
-
-    public PromocaoDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    
+    @Resource(name = "jdbc/ReservaDBLocal")
+    DataSource dataSource;
 
     public Promocao gravarPromocao(Promocao promocao) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
