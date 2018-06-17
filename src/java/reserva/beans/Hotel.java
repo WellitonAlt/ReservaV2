@@ -7,7 +7,7 @@ import java.text.ParseException;
 
 public class Hotel implements Serializable {
     private int id;
-    private String cnpj, senha, nome, cidade; 
+    private String cnpj, senha, nome, cidade;
 
     public int getId() { return id; }
 

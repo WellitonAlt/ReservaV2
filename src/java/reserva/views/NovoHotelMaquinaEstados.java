@@ -14,15 +14,15 @@ import java.io.Serializable;
 
 public class NovoHotelMaquinaEstados implements Serializable{
     public static NovoHotelMaquinaEstados inicio() {
-        return new NovoHotelMaquinaEstados(true, false, true, false, false);
+        return new NovoHotelMaquinaEstados(true, false, true, false, true);
     }
     
     public static NovoHotelMaquinaEstados novoHotel() {
-        return new NovoHotelMaquinaEstados(false, false, false, false, false);
+        return new NovoHotelMaquinaEstados(false, false, false, false, true);
     }
     
     public static NovoHotelMaquinaEstados confirmarNovoHotel() {
-        return new NovoHotelMaquinaEstados(false, true, false, true, true);
+        return new NovoHotelMaquinaEstados(false, true, false, true, false);
     }
     
     private final boolean camposDadosHotelDesabilitados;

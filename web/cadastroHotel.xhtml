@@ -21,10 +21,13 @@
             </ui:define>
             <ui:define name="content">
                 <div class="container center">
+                    <h4> Cadastro de Hotel </h4>
                     <form class="col s6" jsf:id="cadHotel">
+                      <br />
                       <div class="alert #{novoHotel.mensagem.tipoMensagem}" jsf:id="mensagem">
                                 #{novoHotel.mensagem.texto}
                       </div>
+                      <br />
                       <div class="row">
                         <div class="input-field col s6">
                           <input name="cnpj" type="text"
@@ -44,8 +47,7 @@
                                 jsf:id="senha"
                                 jsf:label="Senha"
                                 jsf:value="#{novoHotel.dadosHotel.senha}"
-                                jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
-                                jsf:required="true" />
+                                jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}" />
                           <label for="senha">Senha</label>
                         </div>
                       </div>
@@ -69,9 +71,37 @@
                           <label for="cidade">Cidade</label>
                         </div>
                       </div>
+                      <div class ="row" style="display:#{(novoHotel.estado.camposDadosHotelDestaque)?'block':'none'}">
+                          <h6> Confirme os dados abaixo:</h6>
+                          <span> Nome: </span>
+                           <h:outputText value="#{novoHotel.dadosHotel.nome}" /> <br />
+                           <span> Senha: </span>
+                           <h:outputText value="*********" /> <br /> 
+                           <span> CNPJ: </span>
+                           <h:outputText value="#{novoHotel.dadosHotel.CNPJMascara}"/> <br />
+                           <span> Cidade: </span>
+                           <h:outputText value="#{novoHotel.dadosHotel.cidade}" /> <br />
+                      </div>
                       <div class="row">
                           <a class="waves-effect waves-light btn indigo">
-                              <input type="submit" value="Cadastrar"  jsf:id="enviar" />
+                              <input type="submit" value="Enviar"  
+                                     jsf:id="enviar"
+                                     jsf:disabled="#{novoHotel.estado.botaoEnvioDesabilitado}">
+                               <f:ajax execute="@form" 
+                                                render="@form"
+                                                onevent="monitorarAjax"
+                                                listener="#{novoHotel.enviarHotel()}"/>
+                              </input>
+                          </a>
+                          <a class="waves-effect waves-light btn indigo">
+                              <input type="submit" value="Cadastrar"  
+                                     jsf:id="cadastrar"
+                                     jsf:disabled="#{novoHotel.estado.botaoConfirmarHotelVisivel}">
+                               <f:ajax execute="@form" 
+                                                render="@form"
+                                                onevent="monitorarAjax"
+                                                listener="#{novoHotel.confirmarHotel()}"/>
+                              </input>
                           </a>
                       </div>
                     </form>
