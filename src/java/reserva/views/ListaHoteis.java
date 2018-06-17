@@ -42,7 +42,7 @@ public class ListaHoteis implements Serializable {
         return "listaHoteis";
     }
     
-    public String listaTodosHoteisByCidade() throws SQLException, NamingException {
+    public String listaTodosHoteisPorCidade() throws SQLException, NamingException {
         hoteis = hotelDAO.listarHoteisPorCidade(cidade);        
         return "listaHoteis";
     }

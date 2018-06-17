@@ -29,12 +29,12 @@ public class SiteDAO {
             + " from site "
             + " where url = ? AND"
             + " senha = ? ";
-    
     private final static String BUSCAR_SITE_BY_URL_SQL = "select"
             + " id, url, nome, telefone"
             + " from site "
             + " where url = ? ";
             
+    
     @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 

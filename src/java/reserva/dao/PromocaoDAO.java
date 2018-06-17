@@ -51,7 +51,7 @@ public class PromocaoDAO {
             + " dataInicial = ? and"
             + " dataFinal = ?";
     
-    @Resource(name = "jdbc/ReservaDBLocal")
+    @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 
     public Promocao gravarPromocao(Promocao promocao) throws SQLException, NamingException {
