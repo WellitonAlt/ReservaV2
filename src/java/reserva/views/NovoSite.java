@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import reserva.beans.Site;
@@ -21,7 +21,7 @@ import reserva.dao.SiteDAO;
  */
 
 @Named
-@SessionScoped
+@ViewScoped
 public class NovoSite implements Serializable {
     @Inject SiteDAO siteDao;
     
@@ -39,10 +39,6 @@ public class NovoSite implements Serializable {
         mensagem = new MensagemBootstrap();
         mensagem.setMensagem(true, "Digite a url do site para dar início.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
         dadosSite = new Site();
-        dadosSite.setNome("Teste nome");
-        dadosSite.setUrl("www.teste.com.br");
-        dadosSite.setSenha("1234");
-        dadosSite.setTelefone("1234567890");
     }
 
     public Site getDadosSite() {

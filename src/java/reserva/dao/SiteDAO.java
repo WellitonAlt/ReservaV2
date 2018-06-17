@@ -55,11 +55,10 @@ public class SiteDAO {
         return site;
     }
     
-    public List<Site> listarTodasSites() throws SQLException {
+    public List<Site> listarTodosSites() throws SQLException {
         List<Site> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_SQL)) {
-            
             
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

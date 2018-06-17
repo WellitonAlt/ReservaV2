@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import reserva.beans.Hotel;
@@ -21,7 +21,7 @@ import reserva.dao.HotelDAO;
  */
 
 @Named
-@SessionScoped
+@ViewScoped
 public class NovoHotel implements Serializable {
     @Inject HotelDAO hotelDao;
     
