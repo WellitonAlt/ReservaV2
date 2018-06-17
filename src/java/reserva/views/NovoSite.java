@@ -61,7 +61,7 @@ public class NovoSite implements Serializable {
         return mensagem;
     }
     
-    public void validaUrl(FacesContext context, UIComponent toValidate, String value){
+    public void validarUrl(FacesContext context, UIComponent toValidate, String value){
         simularDemora();
         if (value.trim().length() == 0) {
             ((UIInput) toValidate).setValid(false);
@@ -75,7 +75,7 @@ public class NovoSite implements Serializable {
         }
     }
     
-    public void validaNome(FacesContext context, UIComponent toValidate, String value){
+    public void validarNome(FacesContext context, UIComponent toValidate, String value){
         simularDemora();
         if (value.trim().length() == 0) {
             ((UIInput) toValidate).setValid(false);
@@ -89,7 +89,7 @@ public class NovoSite implements Serializable {
         }
     }
     
-    public void validaTelefone(FacesContext context, UIComponent toValidate, String value){
+    public void validarTelefone(FacesContext context, UIComponent toValidate, String value){
         if (value.trim().length() == 0) {
             ((UIInput) toValidate).setValid(false);
             FacesMessage message = new FacesMessage("Telefone não pode ser vazio!");
@@ -154,7 +154,7 @@ public class NovoSite implements Serializable {
     private void simularDemora() {
         // Para testar chamadas AJAX
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
         }

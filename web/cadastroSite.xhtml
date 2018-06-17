@@ -20,33 +20,33 @@
             </ui:define>
             <ui:define name="content">
                 <div class="container center">
-                    <form class="col s6" jsf:id="cadHotel">
-                      <div class="alert #{novoHotel.mensagem.tipoMensagem}" jsf:id="mensagem">
-                                #{novoHotel.mensagem.texto}
+                    <form class="col s6" jsf:id="cadSite">
+                      <div class="alert #{novoSite.mensagem.tipoMensagem}" jsf:id="mensagem">
+                                #{novoSite.mensagem.texto}
                       </div>
                       <div class="row">
                         <div class="input-field col s6">
-                          <input name="cnpj" type="text"
-                                jsf:id="cnpj"
-                                jsf:label="CNPJ"
-                                jsf:value="#{novoHotel.dadosHotel.CNPJ}"
-                                jsf:validator="#{novoHotel.validarCNPJ}"
+                          <input name="url" type="text"
+                                jsf:id="url"
+                                jsf:label="URL"
+                                jsf:value="#{novoSite.dadosSite.url}"
+                                jsf:validator="#{novoSite.validarUrl}"
                                 jsf:required="true">
-                                <f:ajax execute="cnpj"
+                                <f:ajax execute="url"
                                         render="@form"
                                         onevent="monitorarAjax"
-                                        listener="#{novoHotel.procurarCNPJ()}" />
+                                        listener="#{novoSite.procurarUrl()}" />
                           </input>                                
-                          <h:messages for="cnpj" class="text text-danger" />
-                          <label for="cnpj">CNPJ</label>
+                          <h:messages for="url" class="text text-danger" />
+                          <label for="url">URL</label>
                         </div>
                         <div class="input-field col s6">
                           <input name="senha" type="password" 
                                 jsf:id="senha"
                                 jsf:label="Senha"
-                                jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
-                                jsf:value="#{novoHotel.dadosHotel.senha}"
-                                jsf:validator="#{novoHotel.validarSenha}"
+                                jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
+                                jsf:value="#{novoSite.dadosSite.senha}"
+                                jsf:validator="#{novoSite.validarSenha}"
                                 jsf:required="true" />
                           <h:messages for="senha" class="text text-danger" />
                           <label for="senha">Senha</label>
@@ -57,28 +57,28 @@
                            <input name="nome" type="text" 
                                 jsf:id="nome"
                                 jsf:label="Nome"
-                                jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
-                                jsf:value="#{novoHotel.dadosHotel.nome}"
-                                jsf:validator="#{novoHotel.validarNome}"
+                                jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
+                                jsf:value="#{novoSite.dadosSite.nome}"
+                                jsf:validator="#{novoSite.validarNome}"
                                 jsf:required="true" />
                           <h:messages for="nome" class="text text-danger" /> 
                           <label for="nome">Nome</label>
                         </div>
                         <div class="input-field col s6">
-                          <input name="cidade" type="text" 
-                                jsf:id="cidade"
-                                jsf:label="Cidade"
-                                jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
-                                jsf:value="#{novoHotel.dadosHotel.cidade}"
-                                jsf:validator="#{novoHotel.validarCidade}"
+                          <input name="telefone" type="text" 
+                                jsf:id="telefone"
+                                jsf:label="Telefone"
+                                jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
+                                jsf:value="#{novoSite.dadosSite.telefone}"
+                                jsf:validator="#{novoSite.validarTelefone}"
                                 jsf:required="true" />      
-                          <h:messages for="cidade" class="text text-danger" />
-                          <label for="cidade">Cidade</label>
+                          <h:messages for="telefone" class="text text-danger" />
+                          <label for="telefone">Telefone</label>
                         </div>
                       </div>
                       <div class="row">
                           <a class="waves-effect waves-light btn indigo">
-                              <input type="submit" value="Cadastrar"  jsf:id="enviar" />
+                              <input type="submit" value="Cadastrar" jsf:id="enviar" />
                           </a>
                       </div>
                     </form>
