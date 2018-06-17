@@ -9,7 +9,11 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import reserva.beans.Site;
@@ -21,7 +25,7 @@ import reserva.dao.SiteDAO;
  */
 
 @Named
-@ViewScoped
+@SessionScoped
 public class NovoSite implements Serializable {
     @Inject SiteDAO siteDao;
     
@@ -57,6 +61,61 @@ public class NovoSite implements Serializable {
         return mensagem;
     }
     
+    public void validaUrl(FacesContext context, UIComponent toValidate, String value){
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("URL não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (!value.matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("URL não está no formato padrão!. Ex: www.google.com.br");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validaNome(FacesContext context, UIComponent toValidate, String value){
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("URL não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (!value.matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("URL não está no formato padrão!. Ex: www.google.com.br");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validaTelefone(FacesContext context, UIComponent toValidate, String value){
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Telefone não pode ser vazio!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (value.length() < 10 || value.length() > 11 ) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Telefone deve conter 11 digitos!. Ex: 14997555555");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (value.matches("[a-zA-Z]*")) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Telefone não deve conter letras!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validarSenha (FacesContext context, UIComponent toValidate, String value) {
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Senha não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+        
     public void procurarUrl() {
         simularDemora();
         try {
@@ -95,7 +154,7 @@ public class NovoSite implements Serializable {
     private void simularDemora() {
         // Para testar chamadas AJAX
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
         }
