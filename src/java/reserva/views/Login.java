@@ -1,8 +1,10 @@
 package reserva.views;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -20,6 +22,7 @@ public class Login implements Serializable {
     String tipo;   
     Hotel hotel;
     Site site;
+    
     
     @Inject 
     HotelDAO hotelDAO;
@@ -48,23 +51,23 @@ public class Login implements Serializable {
     public void setSite(Site site) { this.site = site; }
     
     public String fazLogin(){        
-        System.out.println(usuario);
-        System.out.println(senha);
-        System.out.println(tipo);
+        /*System.out.println("usuario: " + usuario);
+        System.out.println("senha: " + senha);
+        System.out.println("tipo: " + tipo);*/
         
         
         try{
             switch (tipo) {
                 case "adm":
                     if(usuario.equals("root") && senha.equals("root")){
-                        //Adm
+                       return "areaAdm";                        
                     }else{
                         //Erro
                     }    break;
                 case "hotel":
                     hotel = hotelDAO.loginHotel(usuario, senha);
                     if(hotel != null){
-                        //Hotel
+                        return "areaHotel";
                     }
                     else{
                         //Erro
@@ -72,7 +75,7 @@ public class Login implements Serializable {
                 case "site":
                     site = siteDAO.loginSite(usuario, senha);
                     if(site != null){
-                        //Site
+                        return "areaSite";
                     }
                     else{
                         //Erro
@@ -80,7 +83,7 @@ public class Login implements Serializable {
                 default:
                     //Nenhum Selecionado
             }
-        }catch (NullPointerException | SQLException | NamingException ex) {
+        }catch ( NullPointerException | SQLException | NamingException ex) {
             //Erro
         }
         return "login";
