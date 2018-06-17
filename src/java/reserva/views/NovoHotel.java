@@ -37,12 +37,8 @@ public class NovoHotel implements Serializable {
     private void recomecar() {
         estado = NovoHotelMaquinaEstados.inicio();
         mensagem = new MensagemBootstrap();
-        mensagem.setMensagem(true, "Digite seu CNPJ para dar início", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        mensagem.setMensagem(true, "Digite seu CNPJ para dar início.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
         dadosHotel = new Hotel();
-        dadosHotel.setCidade("Teste cidade");
-        dadosHotel.setCNPJ("12345678123456");
-        dadosHotel.setNome("Teste nome");
-        dadosHotel.setSenha("1234");
     }
     
     public Hotel getDadosHotel() {
@@ -66,7 +62,7 @@ public class NovoHotel implements Serializable {
         try {
             usuarioEncontrado = hotelDao.buscarHotelPorCNPJ(dadosHotel.getCNPJ());
             if (usuarioEncontrado == null) {
-                mensagem.setMensagem(true, "CNPJ ainda não cadastrado! Informe uma nova senha e demais dados para cadastro", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+                mensagem.setMensagem(true, "CNPJ ainda não cadastrado! Informe uma nova senha e demais dados para cadastro.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
                 estado = NovoHotelMaquinaEstados.novoHotel();
             } else {
                 mensagem.setMensagem(true, "CNPJ já cadastrado! Informe um novo CNPJ para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);

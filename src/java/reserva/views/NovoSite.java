@@ -37,7 +37,7 @@ public class NovoSite implements Serializable {
     private void recomecar() {
         estado = NovoSiteMaquinaEstados.inicio();
         mensagem = new MensagemBootstrap();
-        mensagem.setMensagem(true, "Digite a url do site para dar início", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        mensagem.setMensagem(true, "Digite a url do site para dar início.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
         dadosSite = new Site();
         dadosSite.setNome("Teste nome");
         dadosSite.setUrl("www.teste.com.br");
@@ -66,7 +66,7 @@ public class NovoSite implements Serializable {
         try {
             usuarioEncontrado = siteDao.buscarSitePorUrl(dadosSite.getUrl());
             if (usuarioEncontrado == null) {
-                mensagem.setMensagem(true, "URL ainda não cadastrada! Informe uma nova senha e demais dados para cadastro", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+                mensagem.setMensagem(true, "URL ainda não cadastrada! Informe uma nova senha e demais dados para cadastro.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
                 estado = NovoSiteMaquinaEstados.novoSite();
             } else {
                 mensagem.setMensagem(true, "URL já cadastrada! Informe uma nova URL para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
