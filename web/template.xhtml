@@ -11,7 +11,8 @@
 		<title>TreisVaga</title>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 		<h:outputStylesheet name="materialize.css" library="css" />
-		<script type="text/javascript" src="js/materialize.js"></script>
+                <h:outputScript name="default.js" library="js" />
+                <h:outputScript name="materialize.js" library="js" />
 	</h:head>
 	<h:body>
 		<div id="menu" class="container">
@@ -27,6 +28,7 @@
 			</nav>
 		</div>
 		<div id="body" class="container">
+                        <br />
 			<ui:insert name="content">Content</ui:insert>
 			<br />
 		</div>
@@ -40,5 +42,6 @@
 				</div>
 			</footer>
 		</div>
+             <div class="modalAjax" id="ajaxLoader" />
 	</h:body>
 </html>

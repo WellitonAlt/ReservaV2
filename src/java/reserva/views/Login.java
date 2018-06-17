@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,7 +15,7 @@ import reserva.dao.HotelDAO;
 import reserva.dao.SiteDAO;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class Login implements Serializable {
     
     String usuario;

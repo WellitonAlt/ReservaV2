@@ -34,7 +34,6 @@ public class SiteDAO {
             + " from site "
             + " where url = ? ";
             
-    
     @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 
