@@ -40,7 +40,7 @@ public class NovoHotel implements Serializable {
         mensagem.setMensagem(true, "Digite seu CNPJ para dar início", MensagemBootstrap.TipoMensagem.TIPO_INFO);
         dadosHotel = new Hotel();
         dadosHotel.setCidade("Teste cidade");
-        dadosHotel.setCNPJ("12.345.678/1234-56");
+        dadosHotel.setCNPJ("12345678123456");
         dadosHotel.setNome("Teste nome");
         dadosHotel.setSenha("1234");
     }
@@ -61,16 +61,16 @@ public class NovoHotel implements Serializable {
         return estado;
     }
     
-    public void procurarEmail() {
+    public void procurarCNPJ() {
         simularDemora();
         try {
             usuarioEncontrado = hotelDao.buscarHotelPorCNPJ(dadosHotel.getCNPJ());
             if (usuarioEncontrado == null) {
                 mensagem.setMensagem(true, "CNPJ ainda não cadastrado! Informe uma nova senha e demais dados para cadastro", MensagemBootstrap.TipoMensagem.TIPO_INFO);
-                estado = NovoHotelMaquinaEstados.usuarioInexistente();
+                estado = NovoHotelMaquinaEstados.novoHotel();
             } else {
-                mensagem.setMensagem(true, "CNPJ já cadastrado! Informe sua senha para enviar o palpite", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
-                estado = NovoHotelMaquinaEstados.usuarioExistente();
+                mensagem.setMensagem(true, "CNPJ já cadastrado! Informe um novo CNPJ para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+                estado = NovoHotelMaquinaEstados.inicio();
             }
         } catch (SQLException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,24 +78,28 @@ public class NovoHotel implements Serializable {
         }
     }
     
-    public void conferirSenha() {}
-    
     public void enviarHotel() {
-        simularDemora();
-       mensagem.setMensagem(true, "Verifique os dados e confirme o palpite. Atenção, ao confirmar o palpite você concorda em pagar R$ 20,00", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
-       if (usuarioEncontrado == null){
-           estado = NovoHotelMaquinaEstados.confirmarHotelUsuarioInexistente();
-       } else {
-           estado = NovoHotelMaquinaEstados.confirmarHotelUsuarioExistente();
-       }
+       simularDemora();
+       mensagem.setMensagem(true, "Verifique os dados e confirme se as informações do hotel são válidas.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
+       estado = NovoHotelMaquinaEstados.confirmarNovoHotel();
     }
     
-    public void confirmarPalpite() {}
+    public void confirmarHotel() {
+       simularDemora();
+       try {
+           hotelDao.gravarHotel(dadosHotel);
+           recomecar();
+           mensagem.setMensagem(true, "Seu hotel foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+       } catch (SQLException ex) {
+           Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
+           mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+       }
+    }
     
     private void simularDemora() {
         // Para testar chamadas AJAX
         try {
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
         }

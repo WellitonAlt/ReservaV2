@@ -42,7 +42,7 @@ public class HotelDAO {
             + " where cnpj = ? AND"
             + " senha = ? ";
 
-    @Resource(name = "jdbc/ReservaDBLocal")
+    @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 
     public Hotel gravarHotel(Hotel hotel) throws SQLException {

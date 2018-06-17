@@ -2,6 +2,7 @@
 package reserva.dao;
 
 import reserva.beans.Site;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 @RequestScoped
@@ -30,10 +30,15 @@ public class SiteDAO {
             + " where url = ? AND"
             + " senha = ? ";
     
-    @Resource(name = "jdbc/ReservaDBLocal")
+    private final static String BUSCAR_SITE_BY_URL_SQL = "select"
+            + " id, url, nome, telefone"
+            + " from site "
+            + " where url = ? ";
+            
+    @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 
-    public Site gravarSite(Site site) throws SQLException, NamingException {
+    public Site gravarSite(Site site) throws SQLException {
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(CRIAR_SITE_SQL, Statement.RETURN_GENERATED_KEYS);) {
             ps.setString(1, site.getUrl());
@@ -50,7 +55,7 @@ public class SiteDAO {
         return site;
     }
     
-        public List<Site> listarTodasSites() throws SQLException, NamingException {
+    public List<Site> listarTodasSites() throws SQLException {
         List<Site> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_SQL)) {
@@ -68,7 +73,7 @@ public class SiteDAO {
         return ret;
     }
         
-        public Site loginSite(String url, String senha) throws SQLException, NamingException {
+    public Site loginSite(String url, String senha) throws SQLException {
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(LOGIN_SITE_SQL)) {
             ps.setString(1, url);
@@ -76,6 +81,26 @@ public class SiteDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
+                    Site site = new Site();
+                    site.setId(rs.getInt("id"));
+                    site.setUrl(rs.getString("url"));
+                    site.setNome(rs.getString("nome"));
+                    site.setTelefone(rs.getString("telefone"));
+                    return site;
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+    public Site buscarSitePorUrl(String url) throws SQLException{
+          try (Connection con = dataSource.getConnection();
+                PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_BY_URL_SQL)) {
+            ps.setString(1, url);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()){
                     Site site = new Site();
                     site.setId(rs.getInt("id"));
                     site.setUrl(rs.getString("url"));

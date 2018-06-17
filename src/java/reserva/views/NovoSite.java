@@ -5,39 +5,103 @@
  */
 package reserva.views;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import reserva.beans.Site;
+import reserva.dao.SiteDAO;
 
 /**
  *
  * @author spooks
  */
-public class NovoSite {
-        public List<String> validar() {
-        List<String> mensagens = new ArrayList<String>();
-               
-        if (url.trim().length() == 0) {
-            mensagens.add("URL não pode ser vazio!");
-        }
-        if (!url.matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
-            mensagens.add("URL não está no formato padrão!. Ex: www.google.com.br ");       
-        }
-        if (nome.trim().length() == 0) {
-            mensagens.add("Nome não pode ser vazio!");
-        }
-        if (senha.trim().length() == 0) {
-            mensagens.add("Senha não pode ser vazia!");
-        }
-        if (telefone.trim().length() == 0) {
-            mensagens.add("Telefone não pode ser vazio!");
-        }
-        if (telefone.length() < 10 || telefone.length() > 11 ) {
-            mensagens.add("Telefone deve conter 11 digitos!. Ex: 14997555555");
-        }
-        if (telefone.matches("[a-zA-Z]*")) {
-            mensagens.add("Telefone não deve conter letras!");
-        }
-        return (mensagens.isEmpty() ? null : mensagens);
+
+@Named
+@SessionScoped
+public class NovoSite implements Serializable {
+    @Inject SiteDAO siteDao;
+    
+    Site dadosSite;
+    Site usuarioEncontrado;
+    NovoSiteMaquinaEstados estado;
+    MensagemBootstrap mensagem;
+    
+    public NovoSite(){
+        recomecar();
+    }
+
+    private void recomecar() {
+        estado = NovoSiteMaquinaEstados.inicio();
+        mensagem = new MensagemBootstrap();
+        mensagem.setMensagem(true, "Digite a url do site para dar início", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        dadosSite = new Site();
+        dadosSite.setNome("Teste nome");
+        dadosSite.setUrl("www.teste.com.br");
+        dadosSite.setSenha("1234");
+        dadosSite.setTelefone("1234567890");
+    }
+
+    public Site getDadosSite() {
+        return dadosSite;
+    }
+
+    public void setDadosSite(Site dadosSite) {
+        this.dadosSite = dadosSite;
+    }
+
+    public NovoSiteMaquinaEstados getEstado() {
+        return estado;
+    }
+
+    public MensagemBootstrap getMensagem() {
+        return mensagem;
     }
     
+    public void procurarUrl() {
+        simularDemora();
+        try {
+            usuarioEncontrado = siteDao.buscarSitePorUrl(dadosSite.getUrl());
+            if (usuarioEncontrado == null) {
+                mensagem.setMensagem(true, "URL ainda não cadastrada! Informe uma nova senha e demais dados para cadastro", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+                estado = NovoSiteMaquinaEstados.novoSite();
+            } else {
+                mensagem.setMensagem(true, "URL já cadastrada! Informe uma nova URL para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+                estado = NovoSiteMaquinaEstados.inicio();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
+            mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+        }
+    }
+    
+    public void enviarSite() {
+       simularDemora();
+       mensagem.setMensagem(true, "Verifique os dados e confirme se as informações do site são válidas.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
+       estado = NovoSiteMaquinaEstados.confirmarNovoSite();
+    }
+    
+    public void confirmarHotel() {
+       simularDemora();
+       try {
+           siteDao.gravarSite(dadosSite);
+           recomecar();
+           mensagem.setMensagem(true, "Seu site foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+       } catch (SQLException ex) {
+           Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
+           mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+       }
+    }
+    
+    private void simularDemora() {
+        // Para testar chamadas AJAX
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

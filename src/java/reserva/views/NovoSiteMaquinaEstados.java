@@ -11,18 +11,18 @@ import java.io.Serializable;
  *
  * @author spooks
  */
-
-public class NovoHotelMaquinaEstados implements Serializable{
-    public static NovoHotelMaquinaEstados inicio() {
-        return new NovoHotelMaquinaEstados(true, true, true, true, false, true, false, false);
+public class NovoSiteMaquinaEstados implements Serializable{
+    
+    public static NovoSiteMaquinaEstados inicio() {
+        return new NovoSiteMaquinaEstados(true, true, true, true, false, true, false, false);
     }
     
-    public static NovoHotelMaquinaEstados novoHotel() {
-        return new NovoHotelMaquinaEstados(false, true, false, false, false, false, false, false);
+    public static NovoSiteMaquinaEstados novoSite() {
+        return new NovoSiteMaquinaEstados(false, true, false, false, false, false, false, false);
     }
     
-    public static NovoHotelMaquinaEstados confirmarNovoHotel() {
-        return new NovoHotelMaquinaEstados(false, true, false, false, true, false, true, true);
+    public static NovoSiteMaquinaEstados confirmarNovoSite() {
+        return new NovoSiteMaquinaEstados(false, true, false, false, true, false, true, true);
     }
     
     private final boolean campoSenhaDesabilitado;
@@ -34,7 +34,7 @@ public class NovoHotelMaquinaEstados implements Serializable{
     private final boolean campoConfirmacaoSenhaVisivel;
     private final boolean botaoConfirmarHotelVisivel;
 
-    public NovoHotelMaquinaEstados(boolean campoSenhaDesabilitado, boolean eventoSenhaDesabilitado, boolean camposDadosPessoaisDesabilitados, boolean camposDadosHotelDesabilitados, boolean camposDadosHotelDestaque, boolean botaoEnvioDesabilitado, boolean campoConfirmacaoSenhaVisivel, boolean botaoConfirmarHotelVisivel) {
+    public NovoSiteMaquinaEstados(boolean campoSenhaDesabilitado, boolean eventoSenhaDesabilitado, boolean camposDadosPessoaisDesabilitados, boolean camposDadosHotelDesabilitados, boolean camposDadosHotelDestaque, boolean botaoEnvioDesabilitado, boolean campoConfirmacaoSenhaVisivel, boolean botaoConfirmarHotelVisivel) {
         this.campoSenhaDesabilitado = campoSenhaDesabilitado;
         this.eventoSenhaDesabilitado = eventoSenhaDesabilitado;
         this.camposDadosPessoaisDesabilitados = camposDadosPessoaisDesabilitados;
