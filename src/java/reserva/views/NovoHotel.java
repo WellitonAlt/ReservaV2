@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package reserva.views;
 
 import java.io.Serializable;
@@ -6,22 +10,29 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import reserva.beans.Hotel;
 import reserva.dao.HotelDAO;
 
+/**
+ *
+ * @author spooks
+ */
+
 @Named
 @SessionScoped
 public class NovoHotel implements Serializable {
     @Inject HotelDAO hotelDao;
-    
     Hotel dadosHotel;
     Hotel usuarioEncontrado;
     NovoHotelMaquinaEstados estado;
     MensagemBootstrap mensagem;
-    
+
     public NovoHotel(){
         recomecar();
     }
@@ -49,16 +60,57 @@ public class NovoHotel implements Serializable {
         return estado;
     }
     
+    public void validarCNPJ (FacesContext context, UIComponent toValidate, String value) {
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("CNPJ não pode ser vazio!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (value.length() < 14 || value.length() > 15 ){
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("CNPJ deve conter 14 dígitos!. Ex: 72629140000134");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+        if (value.matches("[a-zA-Z]*")) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("CNPJ não deve conter letras!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validarNome (FacesContext context, UIComponent toValidate, String value) {
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Nome não pode ser vazio!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validarSenha (FacesContext context, UIComponent toValidate, String value) {
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Senha não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validarCidade (FacesContext context, UIComponent toValidate, String value) {
+        simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Cidade não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
     public void procurarCNPJ() {
         simularDemora();
         try {
             usuarioEncontrado = hotelDao.buscarHotelPorCNPJ(dadosHotel.getCNPJ());
-            if (dadosHotel.getCNPJ().length() < 14 || dadosHotel.getCNPJ().length() > 15 ){
-                mensagem.setMensagem(true, "CNPJ deve conter 14 dígitos!. Ex: 72629140000134", MensagemBootstrap.TipoMensagem.TIPO_INFO);
-                estado = NovoHotelMaquinaEstados.novoHotel();
-            }else if (dadosHotel.getCNPJ().matches("[a-zA-Z]*")) {
-                mensagem.setMensagem(true, "CNPJ não deve conter letras!", MensagemBootstrap.TipoMensagem.TIPO_INFO);
-            }else if (usuarioEncontrado == null) {
+            if (usuarioEncontrado == null) {
                 mensagem.setMensagem(true, "CNPJ ainda não cadastrado! Informe uma nova senha e demais dados para cadastro.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
                 estado = NovoHotelMaquinaEstados.novoHotel();
             } else {
@@ -73,12 +125,8 @@ public class NovoHotel implements Serializable {
     
     public void enviarHotel() {
        simularDemora();
-       if (dadosHotel.getSenha().length() == 0) {
-            mensagem.setMensagem(true, "Senha não pode ser vazio!", MensagemBootstrap.TipoMensagem.TIPO_INFO);      
-       }else {
-            mensagem.setMensagem(true, "Verifique os dados e confirme se as informações do hotel são válidas.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
-            estado = NovoHotelMaquinaEstados.confirmarNovoHotel();
-       }
+       mensagem.setMensagem(true, "Verifique os dados e confirme se as informações do hotel são válidas.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
+       estado = NovoHotelMaquinaEstados.confirmarNovoHotel();
     }
     
     public void confirmarHotel() {
@@ -86,7 +134,7 @@ public class NovoHotel implements Serializable {
        try {
            hotelDao.gravarHotel(dadosHotel);
            recomecar();
-           mensagem.setMensagem(true, "Seu hotel foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);           
+           mensagem.setMensagem(true, "Seu hotel foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
        } catch (SQLException ex) {
            Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
            mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
@@ -96,7 +144,7 @@ public class NovoHotel implements Serializable {
     private void simularDemora() {
         // Para testar chamadas AJAX
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
         }
