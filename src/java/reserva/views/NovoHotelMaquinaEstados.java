@@ -25,24 +25,21 @@ public class NovoHotelMaquinaEstados implements Serializable{
         return new NovoHotelMaquinaEstados(false, true, false, true, false);
     }
     
-    private final boolean camposDadosPessoaisDesabilitados;
     private final boolean camposDadosHotelDesabilitados;
     private final boolean camposDadosHotelDestaque;
     private final boolean botaoEnvioDesabilitado;
+    private final boolean campoConfirmacaoSenhaVisivel;
     private final boolean botaoConfirmarHotelVisivel;
 
-    public NovoHotelMaquinaEstados(boolean camposDadosPessoaisDesabilitados, boolean camposDadosHotelDesabilitados, 
-                                   boolean camposDadosHotelDestaque, boolean botaoEnvioDesabilitado, 
-                                   boolean botaoConfirmarHotelVisivel) {
-        this.camposDadosPessoaisDesabilitados = camposDadosPessoaisDesabilitados;
+    public NovoHotelMaquinaEstados(boolean camposDadosHotelDesabilitados, 
+                boolean camposDadosHotelDestaque, boolean botaoEnvioDesabilitado, 
+                boolean campoConfirmacaoSenhaVisivel, boolean botaoConfirmarHotelVisivel) {
+        
         this.camposDadosHotelDesabilitados = camposDadosHotelDesabilitados;
         this.camposDadosHotelDestaque = camposDadosHotelDestaque;
         this.botaoEnvioDesabilitado = botaoEnvioDesabilitado;
+        this.campoConfirmacaoSenhaVisivel = campoConfirmacaoSenhaVisivel;
         this.botaoConfirmarHotelVisivel = botaoConfirmarHotelVisivel;
-    }
-
-    public boolean isCamposDadosPessoaisDesabilitados() {
-        return camposDadosPessoaisDesabilitados;
     }
 
     public boolean isCamposDadosHotelDesabilitados() {
@@ -55,6 +52,10 @@ public class NovoHotelMaquinaEstados implements Serializable{
 
     public boolean isBotaoEnvioDesabilitado() {
         return botaoEnvioDesabilitado;
+    }
+
+    public boolean isCampoConfirmacaoSenhaVisivel() {
+        return campoConfirmacaoSenhaVisivel;
     }
 
     public boolean isBotaoConfirmarHotelVisivel() {

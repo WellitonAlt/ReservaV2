@@ -6,10 +6,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import reserva.beans.Hotel;
@@ -19,11 +16,12 @@ import reserva.dao.HotelDAO;
 @SessionScoped
 public class NovoHotel implements Serializable {
     @Inject HotelDAO hotelDao;
+    
     Hotel dadosHotel;
     Hotel usuarioEncontrado;
     NovoHotelMaquinaEstados estado;
     MensagemBootstrap mensagem;
-
+    
     public NovoHotel(){
         recomecar();
     }
@@ -49,52 +47,6 @@ public class NovoHotel implements Serializable {
 
     public NovoHotelMaquinaEstados getEstado() {
         return estado;
-    }
-    
-    public void validarCNPJ (FacesContext context, UIComponent toValidate, String value) {
-        simularDemora();
-        if (value.trim().length() == 0) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("CNPJ não pode ser vazio!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (value.length() < 14 || value.length() > 15 ){
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("CNPJ deve conter 14 dígitos!. Ex: 72629140000134");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (value.matches("[a-zA-Z]*")) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("CNPJ não deve conter letras!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-    }
-    
-    public void validarNome (FacesContext context, UIComponent toValidate, String value) {
-        simularDemora();
-        if (value.trim().length() == 0) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("Nome não pode ser vazio!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-    }
-    
-    public void validarSenha (FacesContext context, UIComponent toValidate, String value) {
-        simularDemora();
-        if (value.trim().length() == 0) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("Senha não pode ser vazia!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-    }
-    
-    public void validarCidade (FacesContext context, UIComponent toValidate, String value) {
-        simularDemora();
-        if (value.trim().length() == 0) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("Cidade não pode ser vazia!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
     }
     
     public void procurarCNPJ() {
