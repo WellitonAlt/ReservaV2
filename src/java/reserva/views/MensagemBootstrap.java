@@ -53,12 +53,10 @@ public class MensagemBootstrap implements Serializable {
     public boolean isMostrar() {
         return mostrar;
     }
-
-
+    
     public String getTexto() {
         return texto;
     }
-
 
     public String getTipoMensagem() {
         return tipoMensagem.toString();
