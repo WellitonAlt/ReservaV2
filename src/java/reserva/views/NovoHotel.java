@@ -27,6 +27,7 @@ import reserva.dao.HotelDAO;
 @Named
 @SessionScoped
 public class NovoHotel implements Serializable {
+    
     @Inject HotelDAO hotelDao;
     Hotel dadosHotel;
     Hotel usuarioEncontrado;
@@ -40,8 +41,7 @@ public class NovoHotel implements Serializable {
     private void recomecar() {
         estado = NovoHotelMaquinaEstados.inicio();
         mensagem = new MensagemBootstrap();
-        String mem = "<p> akakaka </p>";
-        mensagem.setMensagem(true, "Digite seu CNPJ para dar início. <br /> asdasd", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        mensagem.setMensagem(true, "Digite seu CNPJ para dar início.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
         dadosHotel = new Hotel();
     }
     
@@ -111,7 +111,7 @@ public class NovoHotel implements Serializable {
                     estado = NovoHotelMaquinaEstados.inicio();
                 }
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
             mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
         }

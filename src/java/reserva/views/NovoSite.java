@@ -27,8 +27,8 @@ import reserva.dao.SiteDAO;
 @Named
 @SessionScoped
 public class NovoSite implements Serializable {
-    @Inject SiteDAO siteDao;
     
+    @Inject SiteDAO siteDao;
     Site dadosSite;
     Site usuarioEncontrado;
     NovoSiteMaquinaEstados estado;
@@ -61,30 +61,11 @@ public class NovoSite implements Serializable {
         return mensagem;
     }
     
-    public void validarUrl(FacesContext context, UIComponent toValidate, String value){
-        simularDemora();
-        if (value.trim().length() == 0) {
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("URL não pode ser vazia!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (!value.matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("URL não está no formato padrão!. Ex: www.google.com.br");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-    }
-    
     public void validarNome(FacesContext context, UIComponent toValidate, String value){
         simularDemora();
         if (value.trim().length() == 0) {
             ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("URL não pode ser vazia!");
-            context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (!value.matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
-            ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage("URL não está no formato padrão!. Ex: www.google.com.br");
+            FacesMessage message = new FacesMessage("Nome não pode ser vazia!");
             context.addMessage(toValidate.getClientId(context), message);
         }
     }
@@ -94,13 +75,11 @@ public class NovoSite implements Serializable {
             ((UIInput) toValidate).setValid(false);
             FacesMessage message = new FacesMessage("Telefone não pode ser vazio!");
             context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (value.length() < 10 || value.length() > 11 ) {
+        }else if (value.length() < 10 || value.length() > 11 ) {
             ((UIInput) toValidate).setValid(false);
             FacesMessage message = new FacesMessage("Telefone deve conter 11 digitos!. Ex: 14997555555");
             context.addMessage(toValidate.getClientId(context), message);
-        }
-        if (value.matches("[a-zA-Z]*")) {
+        }else if (value.matches("[a-zA-Z]*")) {
             ((UIInput) toValidate).setValid(false);
             FacesMessage message = new FacesMessage("Telefone não deve conter letras!");
             context.addMessage(toValidate.getClientId(context), message);
@@ -119,13 +98,21 @@ public class NovoSite implements Serializable {
     public void procurarUrl() {
         simularDemora();
         try {
-            usuarioEncontrado = siteDao.buscarSitePorUrl(dadosSite.getUrl());
-            if (usuarioEncontrado == null) {
-                mensagem.setMensagem(true, "URL ainda não cadastrada! Informe uma nova senha e demais dados para cadastro.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
-                estado = NovoSiteMaquinaEstados.novoSite();
-            } else {
-                mensagem.setMensagem(true, "URL já cadastrada! Informe uma nova URL para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+            if (dadosSite.getUrl().length() == 0){
+                mensagem.setMensagem(true, "URL Invalida!! URL não pode ser vazia!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                 estado = NovoSiteMaquinaEstados.inicio();
+            }else if(!dadosSite.getUrl().matches("(www.)?[a-zA-Z0-9]+\\.[a-zA-Z]+\\.[a-zA-Z]*")){
+                mensagem.setMensagem(true, "URL Invalida!! URL não está no formato padrão!. Ex: www.google.com.br.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+               estado = NovoSiteMaquinaEstados.inicio();
+            }else{
+                usuarioEncontrado = siteDao.buscarSitePorUrl(dadosSite.getUrl());
+                if (usuarioEncontrado == null) {
+                    mensagem.setMensagem(true, "URL ainda não cadastrada! Informe uma nova senha e demais dados para cadastro.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+                    estado = NovoSiteMaquinaEstados.novoSite();
+                } else {
+                    mensagem.setMensagem(true, "URL já cadastrada! Informe uma nova URL para efetuar cadastro.", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+                    estado = NovoSiteMaquinaEstados.inicio();
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,7 +126,7 @@ public class NovoSite implements Serializable {
        estado = NovoSiteMaquinaEstados.confirmarNovoSite();
     }
     
-    public void confirmarHotel() {
+    public void confirmarSite() {
        simularDemora();
        try {
            siteDao.gravarSite(dadosSite);

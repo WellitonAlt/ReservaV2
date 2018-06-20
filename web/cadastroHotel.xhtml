@@ -46,10 +46,10 @@
                                         listener="#{novoHotel.procurarCNPJ()}" />
                           </input>                                
                           <h:messages for="cnpj" class="text text-danger" />
-                          <label for="cnpj">CNPJ</label>
+                          <label class="active" for="cnpj">CNPJ</label>
                         </div>
                         <div class="input-field col s6">
-                          <input name="senha" type="password" 
+                          <input name="senha" type="password"
                                 jsf:id="senha"
                                 jsf:label="Senha"
                                 jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
@@ -57,29 +57,29 @@
                                 jsf:validator="#{novoHotel.validarSenha}"
                                 jsf:redisplay="true"/>
                           <h:messages for="senha" class="text text-danger" />
-                          <label for="senha">Senha</label>
+                          <label class="active"  for="senha">Senha</label>
                         </div>
                       </div>
                       <div class="row">
                         <div class="input-field col s6">
-                           <input name="nome" type="text" 
+                           <input name="nome" type="text"
                                 jsf:id="nome"
                                 jsf:label="Nome"
                                 jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
                                 jsf:value="#{novoHotel.dadosHotel.nome}"
                                 jsf:validator="#{novoHotel.validarNome}" />
                           <h:messages for="nome" class="text text-danger" /> 
-                          <label for="nome">Nome</label>
+                          <label class="active" for="nome">Nome</label>
                         </div>
                         <div class="input-field col s6">
-                          <input name="cidade" type="text" 
+                          <input name="cidade" type="text"
                                 jsf:id="cidade"
                                 jsf:label="Cidade"
                                 jsf:disabled="#{novoHotel.estado.camposDadosHotelDesabilitados}"
                                 jsf:value="#{novoHotel.dadosHotel.cidade}"
                                 jsf:validator="#{novoHotel.validarCidade}"/>      
                           <h:messages for="cidade" class="text text-danger" />
-                          <label for="cidade">Cidade</label>
+                          <label class="active"  for="cidade">Cidade</label>
                         </div>
                       </div>
                       <div class ="row">

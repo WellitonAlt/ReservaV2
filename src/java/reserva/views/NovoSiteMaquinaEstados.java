@@ -23,7 +23,7 @@ public class NovoSiteMaquinaEstados implements Serializable {
     }
     
     public static NovoSiteMaquinaEstados confirmarNovoSite() {
-        return new NovoSiteMaquinaEstados(false, false, true, false, true);
+        return new NovoSiteMaquinaEstados(false, false, true, false, false);
     }
     
     private final boolean camposDadosPessoaisDesabilitados;

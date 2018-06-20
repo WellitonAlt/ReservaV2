@@ -24,21 +24,29 @@
                       <div class="alert #{novoSite.mensagem.tipoMensagem}" jsf:id="mensagem">
                                 #{novoSite.mensagem.texto}
                       </div>
+                        <div class ="alert alert-info" style="display:#{(novoSite.estado.camposDadosSiteDestaque)?'block':'none'}">
+                           <span> URL: </span>
+                           <h:outputText value="#{novoSite.dadosSite.url}" /> <br />          
+                           <span> Senha: </span>
+                           <h:outputText value="*********" /> <br /> 
+                           <span> Nome: </span>
+                           <h:outputText value="#{novoSite.dadosSite.nome}" /> <br />
+                           <span> Telefone: </span>
+                           <h:outputText value="#{novoSite.dadosSite.telefone}"/> <br />
+                      </div>
                       <div class="row">
                         <div class="input-field col s6">
                           <input name="url" type="text"
                                 jsf:id="url"
                                 jsf:label="URL"
-                                jsf:value="#{novoSite.dadosSite.url}"
-                                jsf:validator="#{novoSite.validarUrl}"
-                                jsf:required="true">
+                                jsf:value="#{novoSite.dadosSite.url}">
                                 <f:ajax execute="url"
                                         render="@form"
                                         onevent="monitorarAjax"
                                         listener="#{novoSite.procurarUrl()}" />
                           </input>                                
                           <h:messages for="url" class="text text-danger" />
-                          <label for="url">URL</label>
+                          <label class="active" for="url">URL</label>
                         </div>
                         <div class="input-field col s6">
                           <input name="senha" type="password" 
@@ -46,10 +54,10 @@
                                 jsf:label="Senha"
                                 jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
                                 jsf:value="#{novoSite.dadosSite.senha}"
-                                jsf:validator="#{novoSite.validarSenha}"
-                                jsf:required="true" />
+                                jsf:validator="#{novoSite.validarSenha}" 
+                                jsf:redisplay="true"/>
                           <h:messages for="senha" class="text text-danger" />
-                          <label for="senha">Senha</label>
+                          <label class="active" for="senha">Senha</label>
                         </div>
                       </div>
                       <div class="row">
@@ -59,10 +67,9 @@
                                 jsf:label="Nome"
                                 jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
                                 jsf:value="#{novoSite.dadosSite.nome}"
-                                jsf:validator="#{novoSite.validarNome}"
-                                jsf:required="true" />
+                                jsf:validator="#{novoSite.validarNome}"/>
                           <h:messages for="nome" class="text text-danger" /> 
-                          <label for="nome">Nome</label>
+                          <label class="active" for="nome">Nome</label>
                         </div>
                         <div class="input-field col s6">
                           <input name="telefone" type="text" 
@@ -70,16 +77,36 @@
                                 jsf:label="Telefone"
                                 jsf:disabled="#{novoSite.estado.camposDadosSiteDesabilitados}"
                                 jsf:value="#{novoSite.dadosSite.telefone}"
-                                jsf:validator="#{novoSite.validarTelefone}"
-                                jsf:required="true" />      
+                                jsf:validator="#{novoSite.validarTelefone}" />      
                           <h:messages for="telefone" class="text text-danger" />
-                          <label for="telefone">Telefone</label>
+                          <label class="active" for="telefone">Telefone</label>
                         </div>
                       </div>
-                      <div class="row">
-                          <a class="waves-effect waves-light btn indigo">
-                              <input type="submit" value="Cadastrar" jsf:id="enviar" />
-                          </a>
+                      <div class ="row">
+                          <div class ="col s6">
+                            <a class="waves-effect waves-light btn indigo">
+                                <input type="submit" value="Enviar"  
+                                       jsf:id="enviar"
+                                       jsf:disabled="#{novoSite.estado.botaoEnvioDesabilitado}">
+                                 <f:ajax execute="@form" 
+                                                  render="@form"
+                                                  onevent="monitorarAjax"
+                                                  listener="#{novoSite.enviarSite()}"/>
+                                </input>
+                            </a>
+                          </div>
+                          <div class="col s6" style="visibility:#{(novoSite.estado.camposDadosSiteDestaque)?'visible':'hidden'}">
+                            <a class="waves-effect waves-light btn indigo">
+                                <input type="submit" value="Confirmar"  
+                                       jsf:id="cadastrar"
+                                       jsf:disabled="#{novoSite.estado.botaoConfirmarSiteVisivel}">
+                                 <f:ajax execute="@form" 
+                                                  render="@form"
+                                                  onevent="monitorarAjax"
+                                                  listener="#{novoSite.confirmarSite()}"/>
+                                </input>
+                            </a>
+                          </div>
                       </div>
                     </form>
                 </div>

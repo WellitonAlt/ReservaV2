@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 
 public class NovoHotelMaquinaEstados implements Serializable{
+    
     public static NovoHotelMaquinaEstados inicio() {
         return new NovoHotelMaquinaEstados(true, true, false, true, false);
     }

@@ -6960,6 +6960,25 @@ $jscomp.polyfill = function (e, r, p, m) {
       }
     });
     
+    
+    document.addEventListener('onload', function (e) {
+      if ($(e.target).length > 0) {
+        $(e.target).siblings('label, .prefix').addClass('active');
+      }
+    }, true);
+    
+    // HTML DOM FORM submit handling
+    $(document).on('reload', function (e) {
+     var formSubmit = $(e.target);
+      if (formSubmit.is('form')) {
+        formSubmit.find(input_selector).each(function (e) {
+          if (this.length > 0) {
+            $(this).siblings('label, .prefix').addClass('active');
+          }
+        });
+      }
+    });
+    
     document.addEventListener('onload', function (e) {
       if ($(e.target).length > 0) {
         $(e.target).siblings('label, .prefix').addClass('active');
