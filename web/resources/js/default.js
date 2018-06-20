@@ -13,9 +13,7 @@ function monitorarAjax(data) {
 
 
         case "complete":
-
             ajaxLoader.style.display = 'none';
-
             break;
     }
 }

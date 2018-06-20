@@ -1,11 +1,8 @@
 package reserva.views;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -23,11 +20,16 @@ public class Login implements Serializable {
     String tipo;   
     Hotel hotel;
     Site site;
-    
+    MensagemBootstrap mensagem;
     
     @Inject 
     HotelDAO hotelDAO;
     SiteDAO siteDAO;
+    
+    public Login(){
+        mensagem = new MensagemBootstrap();
+        mensagem.setMensagem(true, "Escolha seu perfil e digite o usuario e senha.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+    }
 
     public String getUsuario() { return usuario; }
 
@@ -50,20 +52,22 @@ public class Login implements Serializable {
     public Site getSite() { return site; }
 
     public void setSite(Site site) { this.site = site; }
+
+    public MensagemBootstrap getMensagem() { return mensagem; }
+
+    public void setMensagem(MensagemBootstrap mensagem) { this.mensagem = mensagem; }
+    
     
     public String fazLogin(){        
-        /*System.out.println("usuario: " + usuario);
-        System.out.println("senha: " + senha);
-        System.out.println("tipo: " + tipo);*/
-        
-        
+    
         try{
             switch (tipo) {
                 case "adm":
                     if(usuario.equals("root") && senha.equals("root")){
                        return "areaAdm";                        
                     }else{
-                        //Erro
+                        mensagem = new MensagemBootstrap();
+                        mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                     }    break;
                 case "hotel":
                     hotel = hotelDAO.loginHotel(usuario, senha);
@@ -71,16 +75,18 @@ public class Login implements Serializable {
                         return "areaHotel";
                     }
                     else{
-                        //Erro
-                    }    break;
+                        mensagem = new MensagemBootstrap();
+                        mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+                    }   break;
                 case "site":
                     site = siteDAO.loginSite(usuario, senha);
                     if(site != null){
                         return "areaSite";
                     }
                     else{
-                        //Erro
-                    }    break;
+                        mensagem = new MensagemBootstrap();
+                        mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+                    }   break;
                 default:
                     //Nenhum Selecionado
             }

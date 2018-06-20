@@ -22,6 +22,9 @@
               <br/>
                <div class="container center">
                 <h:form class="col s6">
+                   <div class="alert #{login.mensagem.tipoMensagem}" jsf:id="mensagem">
+                               #{login.mensagem.texto}
+                   </div>
                    <div class="row">
                        <h:selectOneRadio value = "#{login.tipo}"> 
                         <f:selectItem itemValue = "adm" itemLabel = "Administrador" /> 
