@@ -24,6 +24,7 @@ public class Login implements Serializable {
     
     @Inject 
     HotelDAO hotelDAO;
+    @Inject 
     SiteDAO siteDAO;
     
     public Login(){
@@ -58,7 +59,11 @@ public class Login implements Serializable {
     public void setMensagem(MensagemBootstrap mensagem) { this.mensagem = mensagem; }
     
     
-    public String fazLogin(){        
+    public String fazLogin(){   
+        
+       /*System.err.println("usuario: "+ usuario);
+       System.err.println("senha: "+ senha);
+       System.err.println("tipo: "+ tipo);*/
     
         try{
             switch (tipo) {
@@ -68,7 +73,8 @@ public class Login implements Serializable {
                     }else{
                         mensagem = new MensagemBootstrap();
                         mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
-                    }    break;
+                    }    
+                    break;
                 case "hotel":
                     hotel = hotelDAO.loginHotel(usuario, senha);
                     if(hotel != null){
@@ -77,16 +83,17 @@ public class Login implements Serializable {
                     else{
                         mensagem = new MensagemBootstrap();
                         mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
-                    }   break;
+                    }   
+                    break;
                 case "site":
-                    site = siteDAO.loginSite(usuario, senha);
-                    if(site != null){
+                     site = siteDAO.loginSite(usuario, senha);     
+                     if(site != null){
                         return "areaSite";
-                    }
-                    else{
-                        mensagem = new MensagemBootstrap();
-                        mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
-                    }   break;
+                     }else{
+                         System.err.println(site.getNome());
+                     }
+              
+                    break;
                 default:
                     //Nenhum Selecionado
             }

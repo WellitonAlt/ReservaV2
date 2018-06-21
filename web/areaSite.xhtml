@@ -11,7 +11,7 @@
             <ui:define name="menuList">
                     <h:form>
                         <li>
-                          <a>>Listar Promoções</a>  
+                            <h:commandLink action="#{listaPromocao.listaPromocao(2, login.site.id)}"> Listar Promoções </h:commandLink> 
                         </li>
                         <li>
                             <a jsf:outcome="index">Sair</a>

@@ -76,7 +76,7 @@ public class SiteDAO {
                 PreparedStatement ps = con.prepareStatement(LOGIN_SITE_SQL)) {
             ps.setString(1, url);
             ps.setString(2, senha);
-
+            
             try (ResultSet rs = ps.executeQuery()) {
                 if(rs.next()){
                     Site site = new Site();
