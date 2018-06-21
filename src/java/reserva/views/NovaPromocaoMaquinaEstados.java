@@ -17,23 +17,7 @@ public class NovaPromocaoMaquinaEstados implements Serializable {
         return new NovaPromocaoMaquinaEstados(false, false, true, false);
     }
 
-    public static NovaPromocaoMaquinaEstados usuarioExistente() {
-        return new NovaPromocaoMaquinaEstados(true, false, true, false);
-    }
-    
-    public static NovaPromocaoMaquinaEstados usuarioExistenteSenhaCorreta() {
-        return new NovaPromocaoMaquinaEstados(true, false, false, false);
-    }
-    
-    public static NovaPromocaoMaquinaEstados usuarioInexistente() {
-        return new NovaPromocaoMaquinaEstados(false, false, false, false);
-    }
-
-    public static NovaPromocaoMaquinaEstados confirmarPalpiteUsuarioExistente() {
-        return new NovaPromocaoMaquinaEstados(false, true, false, true);
-    }
-    
-    public static NovaPromocaoMaquinaEstados confirmarPalpiteUsuarioInexistente() {
+    public static NovaPromocaoMaquinaEstados confirmarNovaPromocao() {
         return new NovaPromocaoMaquinaEstados(false, true, false, true);
     }
     
@@ -42,7 +26,8 @@ public class NovaPromocaoMaquinaEstados implements Serializable {
     private final boolean botaoEnvioDesabilitado;
     private final boolean botaoConfirmarPromoVisivel;
 
-    public NovaPromocaoMaquinaEstados(boolean camposDadosPromoDesabilitados, boolean camposDadosPromoDestaque, boolean botaoEnvioDesabilitado, boolean botaoConfirmarPromoVisivel) {
+    public NovaPromocaoMaquinaEstados(boolean camposDadosPromoDesabilitados, boolean camposDadosPromoDestaque, 
+                                      boolean botaoEnvioDesabilitado, boolean botaoConfirmarPromoVisivel) {
         this.camposDadosPromoDesabilitados = camposDadosPromoDesabilitados;
         this.camposDadosPromoDestaque = camposDadosPromoDestaque;
         this.botaoEnvioDesabilitado = botaoEnvioDesabilitado;
