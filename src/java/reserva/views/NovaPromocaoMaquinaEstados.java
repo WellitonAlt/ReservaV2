@@ -1,68 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reserva.views;
 
 import java.io.Serializable;
 
-/**
- *
- * @author spooks
- */
 public class NovaPromocaoMaquinaEstados implements Serializable {
     
     public static NovaPromocaoMaquinaEstados inicio() {
-        return new NovaPromocaoMaquinaEstados(false, false, true, false);
-    }
-
-    public static NovaPromocaoMaquinaEstados usuarioExistente() {
-        return new NovaPromocaoMaquinaEstados(true, false, true, false);
+        return new NovaPromocaoMaquinaEstados(false, false, false, false, false);
     }
     
-    public static NovaPromocaoMaquinaEstados usuarioExistenteSenhaCorreta() {
-        return new NovaPromocaoMaquinaEstados(true, false, false, false);
+    public static NovaPromocaoMaquinaEstados novaPromocao() {
+        return new NovaPromocaoMaquinaEstados(false, false, false, false, false);
     }
     
-    public static NovaPromocaoMaquinaEstados usuarioInexistente() {
-        return new NovaPromocaoMaquinaEstados(false, false, false, false);
-    }
-
-    public static NovaPromocaoMaquinaEstados confirmarPalpiteUsuarioExistente() {
-        return new NovaPromocaoMaquinaEstados(false, true, false, true);
+    public static NovaPromocaoMaquinaEstados confirmarNovaPromocao() {
+        return new NovaPromocaoMaquinaEstados(false, false, true, false, false);
     }
     
-    public static NovaPromocaoMaquinaEstados confirmarPalpiteUsuarioInexistente() {
-        return new NovaPromocaoMaquinaEstados(false, true, false, true);
-    }
-    
-    private final boolean camposDadosPromoDesabilitados;
-    private final boolean camposDadosPromoDestaque;
+    private final boolean camposDadosPessoaisDesabilitados;
+    private final boolean camposDadosPromocaoDesabilitados;
+    private final boolean camposDadosPromocaoDestaque;
     private final boolean botaoEnvioDesabilitado;
-    private final boolean botaoConfirmarPromoVisivel;
+    private final boolean botaoConfirmarPromocaoVisivel;
 
-    public NovaPromocaoMaquinaEstados(boolean camposDadosPromoDesabilitados, boolean camposDadosPromoDestaque, boolean botaoEnvioDesabilitado, boolean botaoConfirmarPromoVisivel) {
-        this.camposDadosPromoDesabilitados = camposDadosPromoDesabilitados;
-        this.camposDadosPromoDestaque = camposDadosPromoDestaque;
+    public NovaPromocaoMaquinaEstados(boolean camposDadosPessoaisDesabilitados, boolean camposDadosPromocaoDesabilitados, 
+                                   boolean camposDadosPromocaoDestaque, boolean botaoEnvioDesabilitado, 
+                                   boolean botaoConfirmarPromocaoVisivel) {
+        this.camposDadosPessoaisDesabilitados = camposDadosPessoaisDesabilitados;
+        this.camposDadosPromocaoDesabilitados = camposDadosPromocaoDesabilitados;
+        this.camposDadosPromocaoDestaque = camposDadosPromocaoDestaque;
         this.botaoEnvioDesabilitado = botaoEnvioDesabilitado;
-        this.botaoConfirmarPromoVisivel = botaoConfirmarPromoVisivel;
+        this.botaoConfirmarPromocaoVisivel = botaoConfirmarPromocaoVisivel;
     }
 
-    public boolean isCamposDadosPromoDesabilitados() {
-        return camposDadosPromoDesabilitados;
+    public boolean isCamposDadosPessoaisDesabilitados() {
+        return camposDadosPessoaisDesabilitados;
     }
 
-    public boolean isCamposDadosPromoDestaque() {
-        return camposDadosPromoDestaque;
+    public boolean isCamposDadosPromocaoDesabilitados() {
+        return camposDadosPromocaoDesabilitados;
+    }
+
+    public boolean isCamposDadosPromocaoDestaque() {
+        return camposDadosPromocaoDestaque;
     }
 
     public boolean isBotaoEnvioDesabilitado() {
         return botaoEnvioDesabilitado;
     }
-    
-    public boolean isBotaoConfirmarPromoVisivel() {
-        return botaoConfirmarPromoVisivel;
+
+    public boolean isBotaoConfirmarPromocaoVisivel() {
+        return botaoConfirmarPromocaoVisivel;
     }
    
 }

@@ -24,6 +24,11 @@ public class SiteDAO {
             + " id, nome"
             + " from Site";
     
+    private final static String BUSCAR_SITE_BY_ID_SQL = "select"
+            + " id, nome"
+            + " from Site"
+            + " where id = ?";
+    
     private final static String LOGIN_SITE_SQL = "select"
             + " id, url, nome, telefone"
             + " from site "
@@ -111,4 +116,21 @@ public class SiteDAO {
             }
         }
     }
+    
+    public String buscarSitePorId(int id) throws SQLException{
+          try (Connection con = dataSource.getConnection();
+                PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_BY_URL_SQL)) {
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()){
+                    return rs.getString("nome");
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+    
+
 }

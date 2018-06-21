@@ -55,7 +55,9 @@ public class Login implements Serializable {
 
     public void setMensagem(MensagemBootstrap mensagem) { this.mensagem = mensagem; }
 
-    public String fazLogin(){        
+    public String fazLogin(){
+        usuario = usuario.trim();
+        senha = senha.trim();
         try{
             switch (tipo) {
                 case "adm":
@@ -85,7 +87,8 @@ public class Login implements Serializable {
                     }   break;
 
                 default:
-                    //Nenhum Selecionado
+                   mensagem = new MensagemBootstrap();
+                   mensagem.setMensagem(true, "Nenhum perfil selecionado.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
             }
         }catch ( NullPointerException | SQLException | NamingException ex) {
             //Erro

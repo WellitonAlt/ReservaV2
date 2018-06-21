@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package reserva.views;
 
 import java.io.Serializable;
@@ -12,20 +7,23 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.NamingException;
 import reserva.beans.Promocao;
 import reserva.beans.Site;
 import reserva.dao.HotelDAO;
 import reserva.dao.PromocaoDAO;
 import reserva.dao.SiteDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author spooks
- */
 
 @Named
 @SessionScoped
@@ -36,7 +34,8 @@ public class NovaPromocao implements Serializable {
     
     UIInput hotelID;
     Promocao dadosPromocao;
-    Site siteEscolhido;
+    int siteId;
+    String siteNome;
     List<Site> listaSites;
     NovaPromocaoMaquinaEstados estado;
     MensagemBootstrap mensagem;
@@ -56,9 +55,9 @@ public class NovaPromocao implements Serializable {
 
     public void setDadosPromocao(Promocao dadosPromocao) { this.dadosPromocao = dadosPromocao; }
 
-    public Site getSiteEscolhido() { return siteEscolhido; }
-    
-    public void setSiteEscolhido(Site site) { siteEscolhido = site; }
+    public int getSiteId() { return siteId;  }
+
+    public void setSiteId(int siteId) { this.siteId = siteId; }
 
     public MensagemBootstrap getMensagem() { return mensagem; }
 
@@ -67,6 +66,16 @@ public class NovaPromocao implements Serializable {
     public UIInput getHotelID() { return hotelID; }
     
     public void setHotelID(UIInput input) { hotelID = input; }
+
+    public String getSiteNome() { 
+        try{
+            siteNome = siteDao.buscarSitePorId(siteId);
+        }catch(SQLException e){}        
+        return siteNome; 
+    }
+
+    public void setSiteNome(String siteNome) { this.siteNome = siteNome;  }    
+    
 
     public List<Site> getListaSites() {
         try {
@@ -85,59 +94,90 @@ public class NovaPromocao implements Serializable {
         }
     }
     
-    public void validarSite() {
-        if (siteEscolhido != null) {
-            dadosPromocao.setSite(siteEscolhido.getId());
+    public void validarSite(FacesContext context, UIComponent toValidate, String value) {
+        System.err.println(value);
+    }
+    
+    public void validarPreco(FacesContext context, UIComponent toValidate, String value) { 
+        simularDemora();
+        if (value.equals("0.0")) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Preço não pode ser zero");
+            context.addMessage(toValidate.getClientId(context), message);
+        }else if (value.matches("[0-9]+((\\,|\\.)[0-9][0-9])?")){
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Preço deve ser na forma NN,NN!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }else{
+            value = value.replace(',', '.');
+            dadosPromocao.setPreco(Float.valueOf(value));
         }
     }
     
-    public void validarPreco() { }
-    public void validarDataInicial() { }
-    public void validarDataFinal() { }
-    public void enviarPromocao() { }
-    public void confirmarPromocao() { }
     
-    /*public void conferirSenha() {
-        simularDemora();
-        String senha = (String) dadosPalpite.getPalpiteiro().getSenha();
-        if (senha.equals(usuarioEncontrado.getSenha())) {
-            dadosPalpite.setPalpiteiro(usuarioEncontrado);
-            mensagem.setMensagem(true, "Senha correta! Informe seu palpite!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
-            estado = NovoPalpiteMaquinaEstados.usuarioExistenteSenhaCorreta();
-        } else {
-            estado = NovoPalpiteMaquinaEstados.usuarioExistente();
-            mensagem.setMensagem(true, "Senha incorreta! Informe novamente!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
-        }        
-    }*/
-
-    /*public void enviarPalpite() {
-       simularDemora();
-       mensagem.setMensagem(true, "Verifique os dados e confirme o palpite. Atenção, ao confirmar o palpite você concorda em pagar R$ 20,00", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
-       if (usuarioEncontrado == null) {
-           estado = NovoPalpiteMaquinaEstados.confirmarPalpiteUsuarioInexistente();
-       } else {
-           estado = NovoPalpiteMaquinaEstados.confirmarPalpiteUsuarioExistente();
-       }
+    public void validarDataInicial(FacesContext context, UIComponent toValidate, String value) { 
+      simularDemora();
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Data Inicial não pode ser vazio!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }else{
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                dadosPromocao.setDataInicial(formatter.parse(value));
+            } catch (ParseException e) { }
+        }    
     }
-
-    public void confirmarPalpite() {
+    
+    
+    public void validarDataFinal(FacesContext context, UIComponent toValidate, String value) { 
+        simularDemora();
+        if(value.length() > 0){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                dadosPromocao.setDataFinal(formatter.parse(value));
+            } catch (ParseException e) { }
+        }
+        try{
+            if (value.trim().length() == 0) {
+                ((UIInput) toValidate).setValid(false);
+                FacesMessage message = new FacesMessage("Data Final não pode ser vazio!");
+                context.addMessage(toValidate.getClientId(context), message);
+            }else if(promocaoDao.verificaData(dadosPromocao.getDataInicial(), dadosPromocao.getDataFinal(), dadosPromocao.getHotel())){
+                ((UIInput) toValidate).setValid(false);
+                FacesMessage message = new FacesMessage("Ja existe uma promocao para essa mesma data!");
+                context.addMessage(toValidate.getClientId(context), message);   
+            }else if(dadosPromocao.getDataFinal().before(dadosPromocao.getDataInicial())){
+                ((UIInput) toValidate).setValid(false);
+                FacesMessage message = new FacesMessage("A Data Final não pode ser anterior à Data Inicial!");
+                context.addMessage(toValidate.getClientId(context), message);
+            }
+        }catch(SQLException | NamingException ex){}
+    }
+ 
+    public void enviarPromocao() {
+       System.err.println("Ajsbdjksbdjfkbsjdkfbskjdbfjksbdjkfbjdf");
+       simularDemora();       
+       mensagem.setMensagem(true, "Verifique os dados e confirme a promoção.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
+       estado = NovaPromocaoMaquinaEstados.confirmarNovaPromocao();
+    }
+    
+    public void envia() {
+       System.err.println("Bobao");
+    }
+    
+    public void confirmarPromocao() {
        simularDemora();
        try {
-           Usuario u = usuarioDao.buscarUsuario(dadosPalpite.getPalpiteiro().getId());
-           if (u == null) {
-               u = usuarioDao.gravarUsuario(dadosPalpite.getPalpiteiro());
-           }
-           dadosPalpite.getPalpiteiro().setId(u.getId());
-           palpiteDao.gravarPalpite(dadosPalpite);
-
+           dadosPromocao.setSite(siteId);
+           promocaoDao.gravarPromocao(dadosPromocao);
            recomecar();
-           mensagem.setMensagem(true, "Seu palpite foi registrado com sucesso! Digite seu e-mail para dar início a outro palpite", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
-
-       } catch (SQLException ex) {
-           Logger.getLogger(NovoPalpite.class.getName()).log(Level.SEVERE, null, ex);
+           mensagem.setMensagem(true, "Sua Promocao foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+       } catch (SQLException | NamingException ex) {
+           Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
            mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
        }
-    }*/
+    }
    
     private void simularDemora() {
         // Para testar chamadas AJAX
@@ -147,4 +187,6 @@ public class NovaPromocao implements Serializable {
             Logger.getLogger(NovaPromocao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
+    
+} 
+
