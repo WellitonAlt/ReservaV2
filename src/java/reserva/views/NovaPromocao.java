@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.inject.Inject;
 import javax.inject.Named;
-import reserva.beans.Hotel;
 import reserva.beans.Promocao;
 import reserva.beans.Site;
 import reserva.dao.HotelDAO;
@@ -33,8 +34,9 @@ public class NovaPromocao implements Serializable {
     @Inject HotelDAO hotelDao;
     @Inject PromocaoDAO promocaoDao;
     
+    UIInput hotelID;
     Promocao dadosPromocao;
-    Hotel hotelEncontrado;
+    Site siteEscolhido;
     List<Site> listaSites;
     NovaPromocaoMaquinaEstados estado;
     MensagemBootstrap mensagem;
@@ -52,32 +54,49 @@ public class NovaPromocao implements Serializable {
 
     public Promocao getDadosPromocao() { return dadosPromocao; }
 
-    public void setDadosPalpite(Promocao dadosPromocao) { this.dadosPromocao = dadosPromocao; }
+    public void setDadosPromocao(Promocao dadosPromocao) { this.dadosPromocao = dadosPromocao; }
+
+    public Site getSiteEscolhido() { return siteEscolhido; }
+    
+    public void setSiteEscolhido(Site site) { siteEscolhido = site; }
 
     public MensagemBootstrap getMensagem() { return mensagem; }
 
     public NovaPromocaoMaquinaEstados getEstado() { return estado; }
-
-    public List<Site> getListaSites() { return listaSites; }
     
-    public void procurarCNPJ() {
-        simularDemora();
+    public UIInput getHotelID() { return hotelID; }
+    
+    public void setHotelID(UIInput input) { hotelID = input; }
+
+    public List<Site> getListaSites() {
         try {
-            String CNPJ = "" + dadosPromocao.getHotel();
-            hotelEncontrado = hotelDao.buscarHotelPorCNPJ(CNPJ);
-            if (hotelEncontrado == null) {
-                mensagem.setMensagem(true, "CNPJ ainda não cadastrado! Informe uma nova senha e demais dados para cadastro", MensagemBootstrap.TipoMensagem.TIPO_INFO);
-                estado = NovaPromocaoMaquinaEstados.usuarioInexistente();
-            } else {
-                mensagem.setMensagem(true, "E-mail já cadastrado! Informe sua senha para enviar o palpite", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
-                estado = NovaPromocaoMaquinaEstados.usuarioExistente();
-            }
+            listaSites = siteDao.listarTodosSites();
         } catch (SQLException ex) {
             Logger.getLogger(NovaPromocao.class.getName()).log(Level.SEVERE, null, ex);
             mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
         }
+        return listaSites;
     }
-
+    
+    public void validarHotel() {
+        int id = (int) hotelID.getValue();
+        if (id != 0) {
+            dadosPromocao.setHotel(id);
+        }
+    }
+    
+    public void validarSite() {
+        if (siteEscolhido != null) {
+            dadosPromocao.setSite(siteEscolhido.getId());
+        }
+    }
+    
+    public void validarPreco() { }
+    public void validarDataInicial() { }
+    public void validarDataFinal() { }
+    public void enviarPromocao() { }
+    public void confirmarPromocao() { }
+    
     /*public void conferirSenha() {
         simularDemora();
         String senha = (String) dadosPalpite.getPalpiteiro().getSenha();

@@ -28,7 +28,7 @@ public class Login implements Serializable {
     
     public Login(){
         mensagem = new MensagemBootstrap();
-        mensagem.setMensagem(true, "Escolha seu perfil e digite o usuario e senha.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        mensagem.setMensagem(true, "Escolha seu perfil e digite o usuário e senha para realizar login.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
     }
 
     public String getUsuario() { return usuario; }

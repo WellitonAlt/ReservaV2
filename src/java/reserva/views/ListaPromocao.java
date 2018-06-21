@@ -30,14 +30,11 @@ public class ListaPromocao implements Serializable{
 
     public String listaPromocao(int op, int siteId) throws SQLException, NamingException {
         String id = Integer.toString(siteId);
-        System.err.println("Bla");
         if (op == 1){
             promocoes = promocaoDAO.listarTodasPromocoesByHotel(id);        
             return "listaPromocoes";
         }else{
-            System.err.println("BlaBla");
             promocoes = promocaoDAO.listarTodasPromocoesBySite(id);
-            System.err.println("BlaBlaBla");
             return "listaPromocoes";
         }
     }
