@@ -89,11 +89,12 @@ public class NovaPromocao implements Serializable {
     
     public void validarHotel() {
         int id = (int) hotelID.getValue();
-        if (id != 0) {
+        if (id > 0) {
             dadosPromocao.setHotel(id);
         }
     }
     
+<<<<<<< HEAD
     public void validarSite(FacesContext context, UIComponent toValidate, String value) {
         System.err.println(value);
     }
@@ -174,6 +175,68 @@ public class NovaPromocao implements Serializable {
            recomecar();
            mensagem.setMensagem(true, "Sua Promocao foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
        } catch (SQLException | NamingException ex) {
+=======
+    public void validarSite(FacesContext context, UIComponent toValidate) {
+        if (siteEscolhido != null) {
+            dadosPromocao.setSite(siteEscolhido.getId());
+        } else {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Site escolhido inválido!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    public void validarPreco(FacesContext context, UIComponent toValidate, String value) { 
+        float preco = Float.parseFloat(value);
+        if (preco <= 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Preço não pode ser menor ou igual a zero!");
+            context.addMessage(toValidate.getClientId(context), message);
+        }
+    }
+    
+    // TODO: validar se data inicial < data final e se já não existe uma promoção acontecendo no mesmo site nesse período.
+    public void validarDataInicial(FacesContext context, UIComponent toValidate, String value) {
+        if (value.trim().length() == 0) {
+            ((UIInput) toValidate).setValid(false);
+            FacesMessage message = new FacesMessage("Data inicial não pode ser vazia!");
+            context.addMessage(toValidate.getClientId(context), message);
+        } else {
+        }
+        //Date today = new Date( )
+    }
+    
+    public void validarDataFinal(FacesContext context, UIComponent toValidate, String value) { }
+    
+    public void conferirDatas() {} 
+    
+    /*public void procurarUsuario() {
+        simularDemora();
+        String senha = (String) dadosPalpite.getPalpiteiro().getSenha();
+        if (senha.equals(usuarioEncontrado.getSenha())) {
+            dadosPalpite.setPalpiteiro(usuarioEncontrado);
+            mensagem.setMensagem(true, "Senha correta! Informe seu palpite!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+            estado = NovoPalpiteMaquinaEstados.usuarioExistenteSenhaCorreta();
+        } else {
+            estado = NovoPalpiteMaquinaEstados.usuarioExistente();
+            mensagem.setMensagem(true, "Senha incorreta! Informe novamente!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+        }        
+    }*/
+
+    public void enviarPromocao() {
+       simularDemora();
+       mensagem.setMensagem(true, "Verifique os dados e confirme se as informações da promoção são válidas.", MensagemBootstrap.TipoMensagem.TIPO_AVISO);
+       estado = NovaPromocaoMaquinaEstados.confirmarNovaPromocao();
+    }
+
+    public void confirmarPromocao() { 
+        simularDemora();
+        try {
+           promocaoDao.gravarPromocao(dadosPromocao);
+           recomecar();
+           mensagem.setMensagem(true, "Sua promoção foi registrado com sucesso!", MensagemBootstrap.TipoMensagem.TIPO_SUCESSO);
+       } catch (SQLException ex) {
+>>>>>>> 245455d04a2e2d8b80b9105ac59df0e437223a61
            Logger.getLogger(NovoHotel.class.getName()).log(Level.SEVERE, null, ex);
            mensagem.setMensagem(true, "Ocorreu um problema!", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
        }

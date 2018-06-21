@@ -54,7 +54,7 @@ public class PromocaoDAO {
     @Resource(name = "jdbc/reservaDBLocal")
     DataSource dataSource;
 
-    public Promocao gravarPromocao(Promocao promocao) throws SQLException, NamingException {
+    public Promocao gravarPromocao(Promocao promocao) throws SQLException {
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(CRIAR_PROMOCAO_SQL, Statement.RETURN_GENERATED_KEYS);) {
             
@@ -73,7 +73,7 @@ public class PromocaoDAO {
         return promocao;
     }
 
-    public List<PromocaoConsulta> listarTodasPromocoesByHotel(String ID) throws SQLException, NamingException {
+    public List<PromocaoConsulta> listarTodasPromocoesByHotel(String ID) throws SQLException {
         List<PromocaoConsulta> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(LISTAR_PROMOCAO_SQL_BY_HOTEL)) {
@@ -109,7 +109,7 @@ public class PromocaoDAO {
         return ret;
     }
     
-    public List<PromocaoConsulta> listarTodasPromocoesBySite(String ID) throws SQLException, NamingException {
+    public List<PromocaoConsulta> listarTodasPromocoesBySite(String ID) throws SQLException {
         List<PromocaoConsulta> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(LISTAR_PROMOCAO_SQL_BY_SITE)) {
@@ -145,7 +145,7 @@ public class PromocaoDAO {
         return ret;
     }
     
-    public boolean verificaData(Date dataInicial, Date dataFinal, int hotel) throws SQLException, NamingException {
+    public boolean verificaData(Date dataInicial, Date dataFinal, int hotel) throws SQLException {
          try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(VERIFICA_DATA_SQL)) {
             
