@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Promocao implements Serializable {
     private int id;
-    private int site, hotel;
+    private int siteID, hotelCNPJ;
     private float preco;
     private Date dataInicial, dataFinal;
 
@@ -14,13 +14,13 @@ public class Promocao implements Serializable {
 
     public void setId(int id) { this.id = id; }
 
-    public int getSite() { return site; }
+    public int getSite() { return siteID; }
 
-    public void setSite(int id_site) { this.site = id_site; }
+    public void setSite(int id_site) { this.siteID = id_site; }
 
-    public int getHotel() { return hotel; }
+    public int getHotel() { return hotelCNPJ; }
 
-    public void setHotel(int CNPJ_hotel) { this.hotel = CNPJ_hotel; }
+    public void setHotel(int CNPJ_hotel) { this.hotelCNPJ = CNPJ_hotel; }
 
     public float getPreco() { return preco; }
     

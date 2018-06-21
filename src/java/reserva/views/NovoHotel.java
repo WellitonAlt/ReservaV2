@@ -83,13 +83,13 @@ public class NovoHotel implements Serializable {
         try {
             dadosHotel.setCNPJ(dadosHotel.getCNPJ().replace(".","").replace("/","").replace("-",""));
             if (dadosHotel.getCNPJ().length() == 0){
-                mensagem.setMensagem(true, "CNPJ Invalido!! CNPJ não pode ser vazio.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+                mensagem.setMensagem(true, "CNPJ Inválido!! CNPJ não pode ser vazio.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                 estado = NovoHotelMaquinaEstados.inicio();
             }else if(dadosHotel.getCNPJ().length() < 14 || dadosHotel.getCNPJ().length() >= 15){
-                mensagem.setMensagem(true, "CNPJ Invalido!! CNPJ deve conter 14 dígitos!. Ex: 72629140000134 .", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+                mensagem.setMensagem(true, "CNPJ Inválido!! CNPJ deve conter 14 dígitos!. Ex: 72629140000134 .", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                 estado = NovoHotelMaquinaEstados.inicio();
             }else if(dadosHotel.getCNPJ().matches("[0-9]*[a-zA-Z]+[0-9]*")){
-                mensagem.setMensagem(true, "CNPJ Invalido!! CNPJ não deve conter letras.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
+                mensagem.setMensagem(true, "CNPJ Inválido!! CNPJ não deve conter letras.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                 estado = NovoHotelMaquinaEstados.inicio();
             }else{
                 usuarioEncontrado = hotelDao.buscarHotelPorCNPJ(dadosHotel.getCNPJ());
