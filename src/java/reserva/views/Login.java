@@ -22,9 +22,8 @@ public class Login implements Serializable {
     Site site;
     MensagemBootstrap mensagem;
     
-    @Inject 
-    HotelDAO hotelDAO;
-    SiteDAO siteDAO;
+    @Inject HotelDAO hotelDAO;
+    @Inject SiteDAO siteDAO;
     
     public Login(){
         mensagem = new MensagemBootstrap();
@@ -43,9 +42,7 @@ public class Login implements Serializable {
 
     public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public Hotel getHotel() {
-        return hotel;
-    }
+    public Hotel getHotel() { return hotel; }
 
     public void setHotel(Hotel hotel) { this.hotel = hotel; }
 
@@ -57,15 +54,13 @@ public class Login implements Serializable {
 
     public void setMensagem(MensagemBootstrap mensagem) { this.mensagem = mensagem; }
     
-    
     public String fazLogin(){        
-    
         try{
             switch (tipo) {
                 case "adm":
                     if(usuario.equals("root") && senha.equals("root")){
                        return "areaAdm";                        
-                    }else{
+                    } else {
                         mensagem = new MensagemBootstrap();
                         mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                     }    break;
@@ -73,8 +68,7 @@ public class Login implements Serializable {
                     hotel = hotelDAO.loginHotel(usuario, senha);
                     if(hotel != null){
                         return "areaHotel";
-                    }
-                    else{
+                    } else {
                         mensagem = new MensagemBootstrap();
                         mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                     }   break;
@@ -82,8 +76,7 @@ public class Login implements Serializable {
                     site = siteDAO.loginSite(usuario, senha);
                     if(site != null){
                         return "areaSite";
-                    }
-                    else{
+                    } else {
                         mensagem = new MensagemBootstrap();
                         mensagem.setMensagem(true, "Usuario ou Senha invalidos.", MensagemBootstrap.TipoMensagem.TIPO_ERRO);
                     }   break;
