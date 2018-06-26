@@ -23,7 +23,7 @@ public class NovoHotelMaquinaEstados implements Serializable{
     }
     
     public static NovoHotelMaquinaEstados confirmarNovoHotel() {
-        return new NovoHotelMaquinaEstados(false, true, false, true);
+        return new NovoHotelMaquinaEstados(false, true, false, false);
     }
     
     private final boolean camposDadosHotelDesabilitados;

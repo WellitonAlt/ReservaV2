@@ -8,10 +8,11 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
         <ui:composition template="./template.xhtml">
+            
             <ui:define name="menuList">
                     <h:form>
                         <li>
-                            <a jsf:outcome="areaHotel">Área de Hotel</a>
+                            <a jsf:outcome="areaHotel"> Área de Hotel </a>
                         </li>
                         <li>
                             <h:commandLink action="#{login.logout()}"> Sair </h:commandLink>
@@ -47,7 +48,7 @@
                                 <label class="active" for="cnpj">CNPJ</label>
                             </div>
                             <div class="input-field col s6">
-                                <input name="id" type="text" 
+                                <input name="id" type="hidden" 
                                        jsf:id="id"
                                        jsf:label="ID"
                                        jsf:value="#{login.hotel.id}"
@@ -57,14 +58,19 @@
                        </div>
                         <div class="row">
                             <div class="input-field col s6">
-                                <h:selectOneMenu id="site" value="#{novaPromocao.siteId}" class="browser-default"  >                                                
+                                    <h:selectOneMenu id="site" value="#{novaPromocao.siteId}" validator="#{novaPromocao.validarSite}" class="browser-default"  >   
+                                        <f:selectItem itemValue="#{0}" itemLabel="Escolha um" />
                                         <f:selectItems value="#{novaPromocao.listaSites}" var="site" itemLabel="#{site.nome}" itemValue="#{site.id}" />
+                                        <f:ajax execute="cnpj"
+                                                render="@form"
+                                                onevent="monitorarAjax"
+                                                listener="#{novaPromocao.procuraSite()}" />
                                     </h:selectOneMenu>
                                     <h:messages for="site" class="text text-danger" />
                                     <label class="active" for="site">Site</label>
                             </div>                            
                             <div class="input-field col s6">
-                                <input name="preco" type="text" 
+                                <input name="preco" type="text"
                                      jsf:id="preco"
                                      jsf:label="Preco"
                                      jsf:disabled="#{novaPromocao.estado.camposDadosPromocaoDesabilitados}"

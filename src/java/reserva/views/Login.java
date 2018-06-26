@@ -22,6 +22,9 @@ public class Login implements Serializable {
     Hotel hotel;
     Site site;
     MensagemBootstrap mensagem;
+    boolean isSite;
+    boolean isAdmin;
+    boolean isHotel;
     
     @Inject HotelDAO hotelDAO;
     @Inject SiteDAO siteDAO;
@@ -29,6 +32,9 @@ public class Login implements Serializable {
     public Login(){
         mensagem = new MensagemBootstrap();
         mensagem.setMensagem(true, "Escolha seu perfil e digite o usuário e senha para realizar login.", MensagemBootstrap.TipoMensagem.TIPO_INFO);
+        isSite = false;
+        isHotel = false;
+        isAdmin = false;
     }
 
     public String getUsuario() { return usuario; }
@@ -62,6 +68,7 @@ public class Login implements Serializable {
             switch (tipo) {
                 case "adm":
                     if(usuario.equals("root") && senha.equals("root")){
+                       isAdmin = true;
                        return "areaAdm";                        
                     } else {
                         mensagem = new MensagemBootstrap();
@@ -71,6 +78,7 @@ public class Login implements Serializable {
                 case "hotel":
                     hotel = hotelDAO.loginHotel(usuario, senha);
                     if(hotel != null){
+                        isHotel = true;
                         return "areaHotel";
                     } else {
                         mensagem = new MensagemBootstrap();
@@ -80,6 +88,7 @@ public class Login implements Serializable {
                 case "site":
                      site = siteDAO.loginSite(usuario, senha);     
                      if(site != null){
+                        isSite = true;
                         return "areaSite";
                     } else {
                         mensagem = new MensagemBootstrap();
@@ -96,7 +105,18 @@ public class Login implements Serializable {
         return "login";
     }
     
+    public String checkAlreadyLoggedin(String usuario, String pagina) {
+        if (!isAdmin && !isHotel && !isSite) {
+            return "index";
+        } else {
+            return pagina;
+        }
+    }
+    
     public String logout(){
+        isAdmin = false;
+        isSite = false;
+        isHotel = false;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index";
     }

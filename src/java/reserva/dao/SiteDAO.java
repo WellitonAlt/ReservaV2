@@ -119,7 +119,7 @@ public class SiteDAO {
     
     public String buscarSitePorId(int id) throws SQLException{
           try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_BY_URL_SQL)) {
+                PreparedStatement ps = con.prepareStatement(BUSCAR_SITE_BY_ID_SQL)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
